@@ -1,6 +1,6 @@
 # Building and Deploying a Simple CRUD API for items in a grocery store with Golang,Docker, and Kubernetes
 
-This is a simple CRUD (Create, Read, Update, Delete) REST API for items in a grocery store with Go using the Gin web framework.
+This is a simple CRUD (Create, Read, Update, Delete) REST API for items in a grocery store with Go.
 
 ## Getting Started
 
@@ -13,14 +13,14 @@ Follow these instructions to get a copy of the project up and running on your lo
 ### Cloning the Project
 
 ```bash
-git clone https://github.com/sridharaprasadhosahalli/golang-crud-apis.git
-cd golang-crud-apis
+git clone https://github.com/sridharaprasadhosahalli/golang-crud-apis-native.git
+cd golang-crud-apis-native
 ```
 
 ### Initializing the Project
 
 ```bash
-go mod init github.com/sridharaprasadhosahalli/golang-crud-apis
+go mod init github.com/sridharaprasadhosahalli/golang-crud-apis-native
 ```
 
 ### Downloading Dependencies
@@ -145,7 +145,7 @@ Response
 ## Build Docker image 
 
 ```bash
-docker build --tag sridharaprasadhosahalli/golang-crud-apis .
+docker build --tag sridharaprasadhosahalli/golang-crud-apis-native .
 ```
 
 ## Check Built docker image 
@@ -157,7 +157,7 @@ docker image ls
 ## Run the Built docker image 
 
 ```bash
-docker run -d -p 8080:8080 sridharaprasadhosahalli/golang-crud-apis
+docker run -d -p 8080:8080 sridharaprasadhosahalli/golang-crud-apis-native
 ```
 
 ## verify docker container running
@@ -171,12 +171,12 @@ docker container ls
 ## To run the test cases for Go in docker 
 
 ```bash
-docker build -f Dockerfile -t docker-golang-crud-apis-test --progress plain --no-cache --target run-test-stage .
+docker build -f Dockerfile -t golang-crud-apis-native-test --progress plain --no-cache --target run-test-stage .
 ```
 ## Install minikube for running kubernetes cluster and start the minikube preferably with docker as virtual machine
 
 ```bash
---minikube start --driver=docker
+minikube start --driver=docker
 ```
 
 ## Install kubectl utility for cli

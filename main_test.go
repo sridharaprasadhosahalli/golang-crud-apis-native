@@ -14,7 +14,7 @@ func TestGetItemsHandler(t *testing.T){
 
 	req := httptest.NewRequest("GET", "/items", nil)
     w := httptest.NewRecorder()
-	getorpostItems(w,req)
+	getItems(w,req)
 	if(w.Code != http.StatusOK || len(items) < 3 ){
 		t.Error("Test for Get all items failed.", w.Code)
 	}
@@ -24,7 +24,7 @@ func TestGetItemByIdHandler(t *testing.T){
 
 	req := httptest.NewRequest("GET", "/items/1", nil)
     w := httptest.NewRecorder()
-	getorputordeleteItems(w,req)
+	getItemByID(w,req)
     body, _ := io.ReadAll(w.Body)
 	var item item
 	json.Unmarshal(body,&item)
@@ -37,7 +37,7 @@ func TestDeleteItemByIdHandler(t *testing.T){
 
 	req := httptest.NewRequest("DELETE", "/items/3", nil)
     w := httptest.NewRecorder()
-	getorputordeleteItems(w,req)
+	deleteItem(w,req)
 	if(w.Code != http.StatusOK || len(items) != 2){
 		t.Error("Test for deleting a item failed.", w.Code)
 	}
@@ -54,7 +54,7 @@ func TestAddItemHandler(t *testing.T){
     jsonValue, _ := json.Marshal(itemm)
 	req := httptest.NewRequest("POST", "/items", bytes.NewBuffer(jsonValue))
     w := httptest.NewRecorder()
-	getorpostItems(w,req)
+	addItem(w,req)
 	body, _ := io.ReadAll(w.Body)
 	var item item
 	json.Unmarshal(body,&item)
@@ -74,7 +74,7 @@ func TestUpdateItemHandler(t *testing.T){
     jsonValue, _ := json.Marshal(itemm)
 	req:= httptest.NewRequest("PUT", "/items/1", bytes.NewBuffer(jsonValue))
     w := httptest.NewRecorder()
-	getorpostItems(w,req)
+	updateItem(w,req)
 	body, _ := io.ReadAll(w.Body)
 	var item item
 	json.Unmarshal(body,&item)
