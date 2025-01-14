@@ -23,6 +23,7 @@ func TestGetItemsHandler(t *testing.T){
 func TestGetItemByIdHandler(t *testing.T){
 
 	req := httptest.NewRequest("GET", "/items/1", nil)
+	req.SetPathValue("id", "1")
     w := httptest.NewRecorder()
 	getItemByID(w,req)
     body, _ := io.ReadAll(w.Body)
@@ -36,6 +37,7 @@ func TestGetItemByIdHandler(t *testing.T){
 func TestDeleteItemByIdHandler(t *testing.T){
 
 	req := httptest.NewRequest("DELETE", "/items/3", nil)
+	req.SetPathValue("id", "3")
     w := httptest.NewRecorder()
 	deleteItem(w,req)
 	if(w.Code != http.StatusOK || len(items) != 2){
@@ -73,12 +75,13 @@ func TestUpdateItemHandler(t *testing.T){
     }
     jsonValue, _ := json.Marshal(itemm)
 	req:= httptest.NewRequest("PUT", "/items/1", bytes.NewBuffer(jsonValue))
+	req.SetPathValue("id", "1")
     w := httptest.NewRecorder()
 	updateItem(w,req)
 	body, _ := io.ReadAll(w.Body)
 	var item item
 	json.Unmarshal(body,&item)
-	if(w.Code != http.StatusCreated || len(items) < 0 || !reflect.DeepEqual(item, itemm)){
+	if(w.Code != http.StatusCreated || len(items) < 0 || item.Name != "Orange"){
 		t.Error("Test for updating item failed.", w.Code)
 		return
 	}

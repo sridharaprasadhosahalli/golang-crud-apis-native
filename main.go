@@ -90,7 +90,7 @@ func updateItem(w http.ResponseWriter,r *http.Request) {
 			items[i] = newItem
 			w.Header().Set("Content-Type", "application/json")
 	        w.WriteHeader(http.StatusCreated)
-			json.NewEncoder(w).Encode(a)
+     		json.NewEncoder(w).Encode(items[i])
 			return
 		}
 	}
