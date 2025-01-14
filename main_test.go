@@ -16,7 +16,7 @@ func TestGetItemsHandler(t *testing.T){
     w := httptest.NewRecorder()
 	getorpostItems(w,req)
 	if(w.Code != http.StatusOK || len(items) < 3 ){
-		t.Error("Test Failed ", w.Code)
+		t.Error("Test for Get all items failed.", w.Code)
 	}
 }
 
@@ -29,7 +29,7 @@ func TestGetItemByIdHandler(t *testing.T){
 	var item item
 	json.Unmarshal(body,&item)
 	if(w.Code != http.StatusOK || len(items) < 0 || item.ID != "1"){
-		t.Error("Test Failed ", w.Code)
+		t.Error("Test for Get item failed.", w.Code)
 	}
 }
 
@@ -39,7 +39,7 @@ func TestDeleteItemByIdHandler(t *testing.T){
     w := httptest.NewRecorder()
 	getorputordeleteItems(w,req)
 	if(w.Code != http.StatusOK || len(items) != 2){
-		t.Error("Test Failed ", w.Code)
+		t.Error("Test for deleting a item failed.", w.Code)
 	}
 }
 
@@ -59,7 +59,7 @@ func TestAddItemHandler(t *testing.T){
 	var item item
 	json.Unmarshal(body,&item)
 	if(w.Code != http.StatusCreated || len(items) < 0 || !reflect.DeepEqual(item, itemm)){
-		t.Error("Test Failed ", w.Code)
+		t.Error("Test adding a item failed.", w.Code)
 	}
 }
 
@@ -79,7 +79,7 @@ func TestUpdateItemHandler(t *testing.T){
 	var item item
 	json.Unmarshal(body,&item)
 	if(w.Code != http.StatusCreated || len(items) < 0 || !reflect.DeepEqual(item, itemm)){
-		t.Error("Test Failed ", w.Code)
+		t.Error("Test for updating item failed.", w.Code)
 		return
 	}
 }

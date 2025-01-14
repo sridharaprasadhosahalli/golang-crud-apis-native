@@ -3,7 +3,6 @@ package main
 import(
 	"net/http"
 	"encoding/json"
-	"strings"
 )
 
 type item struct {
@@ -21,36 +20,14 @@ var items = []item{
 }
 
 func main(){
-	http.HandleFunc("/items",getorpostItems)
-	http.HandleFunc("/items/",getorputordeleteItems)
-	http.ListenAndServe(":8080",nil)
+	mux := http.NewServeMux()
+	mux.HandleFunc("/items",getItems)
+	mux.HandleFunc("POST /items",addItem)
+	mux.HandleFunc("GET /items/{id}",getItemByID)
+	mux.HandleFunc("PUT /items/{id}",updateItem)
+	mux.HandleFunc("DELETE /items/{id}",deleteItem)
+	http.ListenAndServe(":8080",mux)
 }
-
-
-// getItems responds with the list of all getItems present in a grocery store as JSON.
-func getorpostItems(w http.ResponseWriter,r *http.Request) {
-	if(r.Method == "GET"){
-		getItems(w,r)
-		return
-	}else{
-		addItem(w,r)
-		return
-	}
- }
-
- // getItems responds with the list of all getItems present in a grocery store as JSON.
-func getorputordeleteItems(w http.ResponseWriter,r *http.Request) {
-	if(r.Method == "GET"){
-		getItemByID(w,r)
-		return
-	}else if(r.Method == "PUT"){
-		updateItem(w,r)
-		return
-	}else{
-		deleteItem(w,r)
-		return
-	}
- }
 
 // getItems responds with the list of all getItems present in a grocery store as JSON.
 func getItems(w http.ResponseWriter,r *http.Request) {
@@ -61,7 +38,7 @@ func getItems(w http.ResponseWriter,r *http.Request) {
 
 // getItemByID searches the item with the same id in grocery store and sends response as JSON.
 func getItemByID(w http.ResponseWriter,r *http.Request) {
-    id := strings.TrimPrefix(r.URL.Path,"/items/")
+	id := r.PathValue("id")
 
     // Loop through the list of items in grocery store, looking for
     // an item whose ID value matches the parameter.
@@ -98,7 +75,7 @@ func addItem(w http.ResponseWriter,r *http.Request) {
 
 //updateItem searches the item with the same id in grocery store and updates it.
 func updateItem(w http.ResponseWriter,r *http.Request) {
-	id := strings.TrimPrefix(r.URL.Path,"/items/")
+	id := r.PathValue("id")
 	var newItem item
 	
 	err := json.NewDecoder(r.Body).Decode(&newItem)
@@ -124,7 +101,7 @@ func updateItem(w http.ResponseWriter,r *http.Request) {
 
 //deleteItem delets the item from the grocery store .
 func deleteItem(w http.ResponseWriter,r *http.Request) {
-	id := strings.TrimPrefix(r.URL.Path,"/items/")
+	id := r.PathValue("id")
 	// Loop through the list of items in grocery store, looking for
     // an item whose ID value matches the parameter and delete it
 	for i, a := range items {
@@ -132,6 +109,7 @@ func deleteItem(w http.ResponseWriter,r *http.Request) {
             items = append(items[:i], items[i+1:]...)
 			w.Header().Set("Content-Type", "application/json")
 	        w.WriteHeader(http.StatusOK)
+			return
         }
     }
     w.Header().Set("Content-Type", "application/json")
