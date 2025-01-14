@@ -1,0 +1,92 @@
+ curl http://localhost:8080/items \
+    --include \
+    --header "Content-Type: application/json" \
+    --request "POST" \
+    --data '{"id": "4","name": "potato","type": "vegetable","price": 49.99}'
+
+
+delete
+curl -X DELETE http://localhost:8080/items/3
+
+all items 
+
+curl -X GET http://localhost:8080/items
+
+fetch item by id 
+
+curl -X GET http://localhost:8080/items/1
+
+update item 
+
+curl -X PUT -H "Content-Type: application/json" -d '{"id": "4","name": "cabbage","type": "vegetable","price": 49.99}' http://localhost:8080/items/3
+
+command to build docker image 
+
+--docker build --tag sridharaprasadhosahalli/golang-crud-apis .
+
+--docker image ls
+
+--docker run  sridharaprasadhosahalli/golang-crud-apis
+
+--docker container ls
+
+--docker run -d -p 8080:8080 sridharaprasadhosahalli/golang-crud-apis
+
+--docker build -f Dockerfile -t docker-golang-crud-apis-test --progress plain --no-cache --target run-test-stage .
+
+pushing built image to docker hub 
+
+--docker push sridharaprasadhosahalli/golang-crud-apis
+
+commands for minikube 
+ 
+ installing minikube 
+
+-- curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-darwin-arm64
+
+--sudo install minikube-darwin-arm64 /usr/local/bin/minikube
+
+starting minikube 
+
+--minikube start --driver=docker
+
+install kubectl 
+
+
+stopping minikube 
+
+--minikube delete --all
+
+docker hub repository 
+ 
+ --https://hub.docker.com/repository/docker/sridharaprasadhosahalli/golag-crud-api/
+
+
+creating deployment using kubectl 
+
+--kubectl apply -f deployment.yaml
+
+create k8s service 
+
+--kubectl create -f service.yml
+
+--kubectl get pods -o wide
+
+--kubectl get po,svc,deployment,ep --show-labels
+
+to list services by minikube
+--minikube service --all
+
+to login inside minikube 
+minikube ssh
+
+stop minikube 
+ 
+ minikube stop
+
+ delete minikube 
+
+ minikube delete
+
+
+

@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: golang-crud-apis
+  labels:
+    app: golang-crud-apis
+spec:
+  selector:
+    matchLabels:
+      app: golang-crud-apis
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: golang-crud-apis
+    spec:
+      containers:
+        - name: golang-crud-apis
+          image: sridharaprasadhosahalli/golang-crud-apis:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 8080
+
